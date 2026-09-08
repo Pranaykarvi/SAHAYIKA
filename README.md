@@ -1,8 +1,8 @@
-# FinAura
+# Sahayika
 
-FinAura is a platform design for connecting rural Indian women in Self-Help Groups (SHGs) to economic opportunity — government procurement, institutional buyers, training, and capital — through AI-assisted matching that is always verified by a professional social worker and always decided on by the group itself.
+Sahayika is a platform design for connecting rural Indian women in Self-Help Groups (SHGs) to economic opportunity — government procurement, institutional buyers, training, and capital — through AI-assisted matching that is always verified by a professional social worker and always decided on by the group itself.
 
-The SHG movement, exemplified by Kudumbashree in Kerala and the national SHG-Bank Linkage Programme, reliably builds savings discipline, group creditworthiness, and vocational skill. What it does not reliably build is connection: the link between a woman's new capability and a buyer, tender, or training programme outside her village's social reach. FinAura specifies the software, the AI components, and the human decision points needed to close that specific gap, without claiming to solve the structural barriers beneath it. The opportunity-matching module at the platform's centre is named Sahayika, the name under which the matching concept was developed in the originating coursework.
+The SHG movement, exemplified by Kudumbashree in Kerala and the national SHG-Bank Linkage Programme, reliably builds savings discipline, group creditworthiness, and vocational skill. What it does not reliably build is connection: the link between a woman's new capability and a buyer, tender, or training programme outside her village's social reach. Sahayika specifies the software, the AI components, and the human decision points needed to close that specific gap, without claiming to solve the structural barriers beneath it. The opportunity-matching module at the platform's centre is named Sahayika, the name under which the matching concept was developed in the originating coursework.
 
 ## Project status
 
@@ -10,7 +10,7 @@ This repository is at the design-specification stage. It contains two files: thi
 
 Accordingly, this document is a specification, not documentation of working software. Every component described below — every service, data store, AI model, and integration — carries the status marker `Proposed`; nothing is `Implemented` or `In progress`. The architecture, data model, and pipeline sections describe intended design, and the Repository structure section describes an intended layout, not the current one.
 
-The project originates from a Human and Social Values course project on social work as a pathway to sustainable development. The conceptual argument — the analysis of the SHG pathway and the gap FinAura targets — is the completed work; the platform is its proposed technical continuation.
+The project originates from a Human and Social Values course project on social work as a pathway to sustainable development. The conceptual argument — the analysis of the SHG pathway and the gap Sahayika targets — is the completed work; the platform is its proposed technical continuation.
 
 ## Problem
 
@@ -22,11 +22,11 @@ Self-Help Groups, organised and accompanied by professional social workers, addr
 
 The gap is that this pathway produces capability without necessarily producing connection. A woman completes tailoring training through her SHG and can produce school uniforms to specification, but the demand for uniforms — government procurement, institutional kitchens and hostels, private supply chains — is dispersed across systems her group's local network does not reach. Tenders are published in English on portals nobody in the village browses; a buyer two districts away cannot discover that a federation within delivery distance can meet its order. The SHG's network is dense but local; the opportunity landscape is thin but wide, and no amount of local organising closes a gap whose other side is a website in another language, in another district, on a deadline.
 
-FinAura addresses the information, geographic, and market-access dimensions of that gap — and only those. It does not undo the four structural barriers: a woman matched to a tender still has no land in her name, and her group's bank loan still depends on the linkage programme, not the platform. Stating this plainly defines what the platform is: a connection layer on top of a proven capability-building pathway, not a substitute for any part of it.
+Sahayika addresses the information, geographic, and market-access dimensions of that gap — and only those. It does not undo the four structural barriers: a woman matched to a tender still has no land in her name, and her group's bank loan still depends on the linkage programme, not the platform. Stating this plainly defines what the platform is: a connection layer on top of a proven capability-building pathway, not a substitute for any part of it.
 
 ## Approach
 
-FinAura is organised as five layers, and the order is a dependency chain, not a feature list. Each layer produces the data or the confidence that the next layer consumes; skipping a layer breaks the one above it.
+Sahayika is organised as five layers, and the order is a dependency chain, not a feature list. Each layer produces the data or the confidence that the next layer consumes; skipping a layer breaks the one above it.
 
 1. **Capability profile.** Before anything can be matched, the system must know in structured form what a group can actually do: skills, certificates, production capacity, equipment, delivery history. Captured with the social worker during routine meetings.
 2. **Financial literacy.** A match is only useful to someone who can evaluate it. Voice-first lessons on pricing, costing, banking, and contracts let the group interrogate an opportunity's numbers rather than defer to whoever presents it.
@@ -301,7 +301,7 @@ Every choice below is `Proposed`; none is installed in this repository. Items no
 Current actual structure:
 
 ```
-FinAura/
+Sahayika/
 ├── LICENSE     GPL-3.0 license text
 └── README.md   This document
 ```
@@ -309,7 +309,7 @@ FinAura/
 Intended structure, once implementation begins (this layout is a plan, not a description of existing directories):
 
 ```
-FinAura/
+Sahayika/
 ├── backend/          Application services: consent, ledger, ingestion, matching, learning, verification
 ├── ai/               AI service adapters: speech, embedding, summarisation, tutoring, readiness
 ├── dashboard/        Social-worker web dashboard
@@ -335,9 +335,9 @@ Phases are defined by the capability delivered, not by dates.
 
 ## Limitations
 
-FinAura does not address land and asset titling; a matched, delivering group still holds no collateral in its members' names. It does not change collateral requirements for formal credit; bank linkage remains governed by the existing programme and the bank's rules. It does not reduce unpaid care work; no matching engine returns hours spent on domestic labour. It does not change the social norms constraining women's mobility; a match a group cannot travel to fulfil is a match the constraint filters must reject — containment of the problem, not a solution to it.
+Sahayika does not address land and asset titling; a matched, delivering group still holds no collateral in its members' names. It does not change collateral requirements for formal credit; bank linkage remains governed by the existing programme and the bank's rules. It does not reduce unpaid care work; no matching engine returns hours spent on domestic labour. It does not change the social norms constraining women's mobility; a match a group cannot travel to fulfil is a match the constraint filters must reject — containment of the problem, not a solution to it.
 
-The platform also has hard operational dependencies, without which it is not merely weaker but useless: an existing SHG ecosystem with functioning groups and federations, active social workers with the time and mandate to verify and accompany, and at least one committed institutional buyer whose demand gives the pipeline something real to match against. FinAura is a connection layer. Where there is nothing to connect, it has nothing to offer.
+The platform also has hard operational dependencies, without which it is not merely weaker but useless: an existing SHG ecosystem with functioning groups and federations, active social workers with the time and mandate to verify and accompany, and at least one committed institutional buyer whose demand gives the pipeline something real to match against. Sahayika is a connection layer. Where there is nothing to connect, it has nothing to offer.
 
 ## References
 
@@ -351,7 +351,7 @@ The platform also has hard operational dependencies, without which it is not mer
 
 ## Authors
 
-Shiva Jyoti (23BDS1015) and Pranay Kumar Karvi (23BDS1137). FinAura originates from their Human and Social Values course project on social work as a pathway to sustainable development, of which this specification is the proposed technical continuation.
+Shiva Jyoti (23BDS1015) and Pranay Kumar Karvi (23BDS1137). Sahayika originates from their Human and Social Values course project on social work as a pathway to sustainable development, of which this specification is the proposed technical continuation.
 
 ## License
 
