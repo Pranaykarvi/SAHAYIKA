@@ -1,0 +1,4191 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Sahayika API",
+    "version": "0.1.0",
+    "description": "Generated from the Zod schemas in backend/src/validation. Do not edit openapi.json by hand — run pnpm openapi:generate."
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Supabase Auth JWT, obtained by the frontend directly from Supabase. The backend only verifies."
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "details": {}
+            },
+            "required": [
+              "code",
+              "message"
+            ]
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "OpportunitySummary": {
+        "type": "object",
+        "properties": {
+          "whatIsBeingBought": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quantity": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "amount",
+              "unit"
+            ]
+          },
+          "qualitySpec": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date"
+          },
+          "eligibility": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "paymentTerms": {
+            "type": "string",
+            "minLength": 1
+          },
+          "penalties": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          },
+          "sourceCitations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "enum": [
+                    "whatIsBeingBought",
+                    "quantity",
+                    "qualitySpec",
+                    "deadline",
+                    "eligibility",
+                    "paymentTerms",
+                    "penalties"
+                  ]
+                },
+                "page": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                "quotedText": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "field",
+                "page",
+                "quotedText"
+              ]
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "whatIsBeingBought",
+          "quantity",
+          "qualitySpec",
+          "deadline",
+          "eligibility",
+          "paymentTerms",
+          "penalties",
+          "sourceCitations"
+        ]
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok"
+            ]
+          },
+          "uptimeSeconds": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "status",
+          "uptimeSeconds"
+        ]
+      },
+      "Me": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "social_worker",
+              "bookkeeper",
+              "admin"
+            ]
+          },
+          "federationId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "syntheticDataPresent": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "userId",
+          "role",
+          "federationId",
+          "groupId",
+          "syntheticDataPresent"
+        ]
+      },
+      "Opportunity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "portal",
+              "partner",
+              "manual",
+              "seed"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "whatIsBeingBought": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quantity": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "amount",
+                  "unit"
+                ]
+              },
+              "qualitySpec": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1
+              },
+              "deadline": {
+                "type": "string",
+                "format": "date"
+              },
+              "eligibility": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "paymentTerms": {
+                "type": "string",
+                "minLength": 1
+              },
+              "penalties": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1
+              },
+              "sourceCitations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "enum": [
+                        "whatIsBeingBought",
+                        "quantity",
+                        "qualitySpec",
+                        "deadline",
+                        "eligibility",
+                        "paymentTerms",
+                        "penalties"
+                      ]
+                    },
+                    "page": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "quotedText": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "page",
+                    "quotedText"
+                  ]
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "whatIsBeingBought",
+              "quantity",
+              "qualitySpec",
+              "deadline",
+              "eligibility",
+              "paymentTerms",
+              "penalties",
+              "sourceCitations"
+            ]
+          },
+          "documentRef": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "deadline": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "sizeClass": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "small",
+              "medium",
+              "large"
+            ]
+          },
+          "needsManualEntry": {
+            "type": "boolean"
+          },
+          "isSynthetic": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "title",
+          "summary",
+          "documentRef",
+          "deadline",
+          "sizeClass",
+          "needsManualEntry",
+          "isSynthetic",
+          "createdAt"
+        ]
+      },
+      "OpportunityIngestRequest": {
+        "type": "object",
+        "properties": {
+          "documentText": {
+            "type": "string",
+            "minLength": 1
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "portal",
+                  "partner"
+                ]
+              },
+              "deadline": {
+                "type": "string",
+                "format": "date"
+              },
+              "documentRef": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "documentText"
+        ]
+      },
+      "OpportunityCreateRequest": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "portal",
+              "partner",
+              "manual",
+              "seed"
+            ],
+            "default": "manual"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "object",
+            "properties": {
+              "whatIsBeingBought": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quantity": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "amount",
+                  "unit"
+                ]
+              },
+              "qualitySpec": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1
+              },
+              "deadline": {
+                "type": "string",
+                "format": "date"
+              },
+              "eligibility": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "paymentTerms": {
+                "type": "string",
+                "minLength": 1
+              },
+              "penalties": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1
+              },
+              "sourceCitations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "enum": [
+                        "whatIsBeingBought",
+                        "quantity",
+                        "qualitySpec",
+                        "deadline",
+                        "eligibility",
+                        "paymentTerms",
+                        "penalties"
+                      ]
+                    },
+                    "page": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "quotedText": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "page",
+                    "quotedText"
+                  ]
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "whatIsBeingBought",
+              "quantity",
+              "qualitySpec",
+              "deadline",
+              "eligibility",
+              "paymentTerms",
+              "penalties",
+              "sourceCitations"
+            ]
+          },
+          "documentRef": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sizeClass": {
+            "type": "string",
+            "enum": [
+              "small",
+              "medium",
+              "large"
+            ]
+          }
+        },
+        "required": [
+          "title",
+          "summary",
+          "sizeClass"
+        ]
+      },
+      "OpportunityListQuery": {
+        "type": "object",
+        "properties": {
+          "deadlineBefore": {
+            "type": "string",
+            "format": "date"
+          },
+          "deadlineAfter": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "Group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "federationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "village": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "formedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "bookkeeperMemberId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "consentStatus": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "revoked"
+            ]
+          },
+          "isSynthetic": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "federationId",
+          "village",
+          "district",
+          "state",
+          "formedOn",
+          "bookkeeperMemberId",
+          "consentStatus",
+          "isSynthetic",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ConsentUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "consentStatus": {
+            "type": "string",
+            "enum": [
+              "suspended",
+              "revoked"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "consentStatus"
+        ]
+      },
+      "CapabilityProfile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "certifications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "issuedBy": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "year": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          },
+          "capacity": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "unitsPerMonth": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "minLeadTimeDays": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "product",
+                "unitsPerMonth",
+                "minLeadTimeDays"
+              ]
+            }
+          },
+          "equipment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "embeddingUpdatedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isSynthetic": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "groupId",
+          "skills",
+          "certifications",
+          "capacity",
+          "equipment",
+          "embeddingUpdatedAt",
+          "updatedAt",
+          "isSynthetic"
+        ]
+      },
+      "CapabilityProfileUpsertRequest": {
+        "type": "object",
+        "properties": {
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "certifications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "issuedBy": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "year": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          },
+          "capacity": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "unitsPerMonth": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "minLeadTimeDays": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "product",
+                "unitsPerMonth",
+                "minLeadTimeDays"
+              ]
+            }
+          },
+          "equipment": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "skills",
+          "certifications",
+          "capacity",
+          "equipment"
+        ]
+      },
+      "Match": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "opportunityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "signal": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "contribution": {
+                  "type": "number"
+                },
+                "explanation": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "signal",
+                "contribution",
+                "explanation"
+              ]
+            }
+          },
+          "readinessBand": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverride": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverrideReason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "proposed",
+              "verified",
+              "rejected",
+              "presented",
+              "accepted",
+              "declined",
+              "completed"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "groupId",
+          "opportunityId",
+          "score",
+          "reasons",
+          "readinessBand",
+          "readinessOverride",
+          "readinessOverrideReason",
+          "status",
+          "createdAt"
+        ]
+      },
+      "MatchWithOpportunity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "opportunityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "signal": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "contribution": {
+                  "type": "number"
+                },
+                "explanation": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "signal",
+                "contribution",
+                "explanation"
+              ]
+            }
+          },
+          "readinessBand": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverride": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverrideReason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "proposed",
+              "verified",
+              "rejected",
+              "presented",
+              "accepted",
+              "declined",
+              "completed"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "opportunity": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "title": {
+                "type": "string"
+              },
+              "summary": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "whatIsBeingBought": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "quantity": {
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "unit"
+                    ]
+                  },
+                  "qualitySpec": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1
+                  },
+                  "deadline": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "eligibility": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "paymentTerms": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "penalties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1
+                  },
+                  "sourceCitations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "enum": [
+                            "whatIsBeingBought",
+                            "quantity",
+                            "qualitySpec",
+                            "deadline",
+                            "eligibility",
+                            "paymentTerms",
+                            "penalties"
+                          ]
+                        },
+                        "page": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0
+                        },
+                        "quotedText": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "page",
+                        "quotedText"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "whatIsBeingBought",
+                  "quantity",
+                  "qualitySpec",
+                  "deadline",
+                  "eligibility",
+                  "paymentTerms",
+                  "penalties",
+                  "sourceCitations"
+                ]
+              },
+              "deadline": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "sizeClass": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "small",
+                  "medium",
+                  "large"
+                ]
+              },
+              "isSynthetic": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "summary",
+              "deadline",
+              "sizeClass",
+              "isSynthetic"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "groupId",
+          "opportunityId",
+          "score",
+          "reasons",
+          "readinessBand",
+          "readinessOverride",
+          "readinessOverrideReason",
+          "status",
+          "createdAt",
+          "opportunity"
+        ]
+      },
+      "MatchQueueItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "opportunityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "signal": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "contribution": {
+                  "type": "number"
+                },
+                "explanation": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "signal",
+                "contribution",
+                "explanation"
+              ]
+            }
+          },
+          "readinessBand": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverride": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverrideReason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "proposed",
+              "verified",
+              "rejected",
+              "presented",
+              "accepted",
+              "declined",
+              "completed"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "groupName": {
+            "type": "string"
+          },
+          "opportunityTitle": {
+            "type": "string"
+          },
+          "isSynthetic": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "groupId",
+          "opportunityId",
+          "score",
+          "reasons",
+          "readinessBand",
+          "readinessOverride",
+          "readinessOverrideReason",
+          "status",
+          "createdAt",
+          "groupName",
+          "opportunityTitle",
+          "isSynthetic"
+        ]
+      },
+      "MatchDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "opportunityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "signal": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "contribution": {
+                  "type": "number"
+                },
+                "explanation": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "signal",
+                "contribution",
+                "explanation"
+              ]
+            }
+          },
+          "readinessBand": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverride": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverrideReason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "proposed",
+              "verified",
+              "rejected",
+              "presented",
+              "accepted",
+              "declined",
+              "completed"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "group": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "type": "string"
+              },
+              "village": {
+                "type": "string"
+              },
+              "district": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "consentStatus": {
+                "type": "string"
+              },
+              "isSynthetic": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "village",
+              "district",
+              "state",
+              "consentStatus",
+              "isSynthetic"
+            ]
+          },
+          "opportunity": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "title": {
+                "type": "string"
+              },
+              "summary": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "whatIsBeingBought": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "quantity": {
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "unit"
+                    ]
+                  },
+                  "qualitySpec": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1
+                  },
+                  "deadline": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "eligibility": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "paymentTerms": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "penalties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1
+                  },
+                  "sourceCitations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "enum": [
+                            "whatIsBeingBought",
+                            "quantity",
+                            "qualitySpec",
+                            "deadline",
+                            "eligibility",
+                            "paymentTerms",
+                            "penalties"
+                          ]
+                        },
+                        "page": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0
+                        },
+                        "quotedText": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "page",
+                        "quotedText"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "whatIsBeingBought",
+                  "quantity",
+                  "qualitySpec",
+                  "deadline",
+                  "eligibility",
+                  "paymentTerms",
+                  "penalties",
+                  "sourceCitations"
+                ]
+              },
+              "deadline": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "sizeClass": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "small",
+                  "medium",
+                  "large"
+                ]
+              },
+              "documentRef": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "isSynthetic": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "summary",
+              "deadline",
+              "sizeClass",
+              "documentRef",
+              "isSynthetic"
+            ]
+          },
+          "capabilityProfile": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "skills": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "capacity": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string"
+                    },
+                    "unitsPerMonth": {
+                      "type": "number"
+                    },
+                    "minLeadTimeDays": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "product",
+                    "unitsPerMonth",
+                    "minLeadTimeDays"
+                  ]
+                }
+              },
+              "equipment": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "embeddingUpdatedAt": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "skills",
+              "capacity",
+              "equipment",
+              "embeddingUpdatedAt"
+            ]
+          },
+          "ledgerSummary": {
+            "type": "object",
+            "properties": {
+              "balance": {
+                "type": "string"
+              },
+              "entryCount": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "lastEntryDate": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              }
+            },
+            "required": [
+              "balance",
+              "entryCount",
+              "lastEntryDate"
+            ]
+          },
+          "readiness": {
+            "type": "object",
+            "properties": {
+              "band": {
+                "type": "string",
+                "enum": [
+                  "ready",
+                  "stretch",
+                  "not_ready"
+                ]
+              },
+              "factors": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 3
+              }
+            },
+            "required": [
+              "band",
+              "factors"
+            ]
+          },
+          "eliminations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "groupId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "groupName": {
+                  "type": "string"
+                },
+                "reasonCode": {
+                  "type": "string"
+                },
+                "explanation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "groupId",
+                "groupName",
+                "reasonCode",
+                "explanation"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "groupId",
+          "opportunityId",
+          "score",
+          "reasons",
+          "readinessBand",
+          "readinessOverride",
+          "readinessOverrideReason",
+          "status",
+          "createdAt",
+          "group",
+          "opportunity",
+          "capabilityProfile",
+          "ledgerSummary",
+          "readiness",
+          "eliminations"
+        ]
+      },
+      "GroupMatchHistoryItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "opportunityTitle": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "proposed",
+              "verified",
+              "rejected",
+              "presented",
+              "accepted",
+              "declined",
+              "completed"
+            ]
+          },
+          "score": {
+            "type": "number"
+          },
+          "readinessBand": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "readinessOverride": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "groupDecision": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "accepted",
+              "declined"
+            ]
+          },
+          "decisionRecordedBy": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "decisionRecordedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "isSynthetic": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "opportunityTitle",
+          "status",
+          "score",
+          "readinessBand",
+          "readinessOverride",
+          "createdAt",
+          "groupDecision",
+          "decisionRecordedBy",
+          "decisionRecordedAt",
+          "isSynthetic"
+        ]
+      },
+      "Overview": {
+        "type": "object",
+        "properties": {
+          "pendingVerifications": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "groupCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "recentDecisions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "matchId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "decision": {
+                  "type": "string",
+                  "enum": [
+                    "approved",
+                    "rejected",
+                    "needs_information"
+                  ]
+                },
+                "decidedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "groupName": {
+                  "type": "string"
+                },
+                "opportunityTitle": {
+                  "type": "string"
+                },
+                "isSynthetic": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "matchId",
+                "decision",
+                "decidedAt",
+                "groupName",
+                "opportunityTitle",
+                "isSynthetic"
+              ]
+            }
+          },
+          "upcomingDeadlines": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "deadline": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "sizeClass": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "isSynthetic": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "deadline",
+                "sizeClass",
+                "isSynthetic"
+              ]
+            }
+          }
+        },
+        "required": [
+          "pendingVerifications",
+          "groupCount",
+          "recentDecisions",
+          "upcomingDeadlines"
+        ]
+      },
+      "MatchingRunRequest": {
+        "type": "object",
+        "properties": {
+          "opportunityId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "opportunityId"
+        ]
+      },
+      "VerifyMatchRequest": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "needs_information"
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "required": [
+          "decision",
+          "rationale"
+        ]
+      },
+      "VerificationRecord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "matchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "socialWorkerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "needs_information"
+            ]
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "decidedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "matchId",
+          "socialWorkerId",
+          "decision",
+          "rationale",
+          "decidedAt"
+        ]
+      },
+      "ReadinessOverrideRequest": {
+        "type": "object",
+        "properties": {
+          "band": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "ready",
+              "stretch",
+              "not_ready"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "band",
+          "reason"
+        ]
+      },
+      "GroupDecisionRequest": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "declined"
+            ]
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "GroupDecision": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "matchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "declined"
+            ]
+          },
+          "recordedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "recordedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createsExternalCommitment": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "matchId",
+          "decision",
+          "recordedBy",
+          "recordedAt",
+          "note",
+          "createsExternalCommitment"
+        ]
+      },
+      "LedgerEntry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "memberId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "thrift",
+              "internal_loan",
+              "repayment",
+              "expense",
+              "income"
+            ]
+          },
+          "amount": {
+            "type": "string"
+          },
+          "entryDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "recordedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reversesEntryId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isSynthetic": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "groupId",
+          "memberId",
+          "kind",
+          "amount",
+          "entryDate",
+          "recordedBy",
+          "reversesEntryId",
+          "note",
+          "createdAt",
+          "isSynthetic"
+        ]
+      },
+      "LedgerPage": {
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "groupId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "memberId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "uuid"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "thrift",
+                    "internal_loan",
+                    "repayment",
+                    "expense",
+                    "income"
+                  ]
+                },
+                "amount": {
+                  "type": "string"
+                },
+                "entryDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "recordedBy": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "reversesEntryId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "uuid"
+                },
+                "note": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "isSynthetic": {
+                  "type": "boolean"
+                },
+                "runningBalance": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "groupId",
+                "memberId",
+                "kind",
+                "amount",
+                "entryDate",
+                "recordedBy",
+                "reversesEntryId",
+                "note",
+                "createdAt",
+                "isSynthetic",
+                "runningBalance"
+              ]
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "offset": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entries",
+          "total",
+          "limit",
+          "offset"
+        ]
+      },
+      "LedgerEntryCreateRequest": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "thrift",
+              "internal_loan",
+              "repayment",
+              "expense",
+              "income"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "entryDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "amount",
+          "entryDate"
+        ]
+      },
+      "LedgerReverseRequest": {
+        "type": "object",
+        "properties": {
+          "entryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "entryId",
+          "reason"
+        ]
+      },
+      "MatchDistributionReport": {
+        "type": "object",
+        "properties": {
+          "federationId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "windowDays": {
+            "type": "integer"
+          },
+          "concentrationThreshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "totalMatches": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "totalActiveMatches": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "byGroup": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "groupId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "groupName": {
+                  "type": "string"
+                },
+                "isSynthetic": {
+                  "type": "boolean"
+                },
+                "totalMatches": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "activeMatches": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "shareOfActiveMatches": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "overConcentrated": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "groupId",
+                "groupName",
+                "isSynthetic",
+                "totalMatches",
+                "activeMatches",
+                "shareOfActiveMatches",
+                "overConcentrated"
+              ]
+            }
+          }
+        },
+        "required": [
+          "federationId",
+          "windowDays",
+          "concentrationThreshold",
+          "totalMatches",
+          "totalActiveMatches",
+          "byGroup"
+        ]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/opportunities/ingest": {
+      "post": {
+        "tags": [
+          "opportunities"
+        ],
+        "summary": "Ingest a raw opportunity document (social worker)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpportunityIngestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Opportunity created from the document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opportunity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Contract defined; implementation arrives in a later stage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/opportunities": {
+      "post": {
+        "tags": [
+          "opportunities"
+        ],
+        "summary": "Create an opportunity manually (social worker)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpportunityCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Opportunity created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opportunity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Contract defined; implementation arrives in a later stage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "opportunities"
+        ],
+        "summary": "List opportunities, filterable by deadline (social worker)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": false,
+            "name": "deadlineBefore",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": false,
+            "name": "deadlineAfter",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opportunities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Opportunity"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Contract defined; implementation arrives in a later stage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/opportunities/{id}": {
+      "get": {
+        "tags": [
+          "opportunities"
+        ],
+        "summary": "Fetch one opportunity (social worker)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opportunity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Opportunity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Contract defined; implementation arrives in a later stage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "List groups in the requesting social worker's federation",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Group"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Contract defined; implementation arrives in a later stage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}": {
+      "get": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Fetch one group (social worker, or the group's own bookkeeper)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Group"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Contract defined; implementation arrives in a later stage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/consent": {
+      "patch": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Suspend or revoke a group's consent (social worker)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated group. Revoking also removes the group from all future matching runs and clears its profile embedding.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Group"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/profile": {
+      "get": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Fetch a group's capability profile (social worker, or the group's own bookkeeper)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Capability profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityProfile"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Contract defined; implementation arrives in a later stage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Create or replace a group's capability profile; the backend re-embeds it (social worker, or the group's own bookkeeper)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CapabilityProfileUpsertRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Capability profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityProfile"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matching/run": {
+      "post": {
+        "tags": [
+          "matching"
+        ],
+        "summary": "Run matching for an opportunity (social worker)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatchingRunRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Proposed matches created by the run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Match"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Contract defined; implementation arrives in a later stage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matches/queue": {
+      "get": {
+        "tags": [
+          "matches"
+        ],
+        "summary": "Proposed matches awaiting verification in the requesting social worker's federation, newest first",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed matches",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatchQueueItem"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matches/{id}": {
+      "get": {
+        "tags": [
+          "matches"
+        ],
+        "summary": "The verification screen payload: match, cited summary, group profile and ledger position, readiness factors, and hard-filter eliminations",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Match detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchDetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/match-history": {
+      "get": {
+        "tags": [
+          "matches"
+        ],
+        "summary": "Full match history for a group with outcomes (RLS limits bookkeepers to verified and later)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Match history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupMatchHistoryItem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/overview": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Dashboard overview: pending verifications, group count, recent decisions, approaching deadlines",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Overview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Overview"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matches/{id}/verify": {
+      "post": {
+        "tags": [
+          "matches"
+        ],
+        "summary": "Record a verification decision with rationale (social worker)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyMatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Verification record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationRecord"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The match already has a verification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matches/{id}/readiness": {
+      "patch": {
+        "tags": [
+          "matches"
+        ],
+        "summary": "Override the readiness band, always with a reason; the automated band is preserved (social worker)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadinessOverrideRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Match with override applied; the original band is preserved alongside it",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Match"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/matches": {
+      "get": {
+        "tags": [
+          "matches"
+        ],
+        "summary": "Verified matches for a group (the group's own bookkeeper)",
+        "description": "Returns matches with status 'verified' ONLY. The filter is pinned inside the service function and backed by row-level security; no parameter can widen it (invariant 1).",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified matches, each with its reasons and the opportunity summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatchWithOpportunity"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matches/{id}/decision": {
+      "post": {
+        "tags": [
+          "matches"
+        ],
+        "summary": "Record the group's own decision on a presented match (bookkeeper)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupDecisionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Group decision; createsExternalCommitment is always false — accepting binds the group to nothing outside this platform",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDecision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "No approved verification, or the group already decided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/ledger": {
+      "get": {
+        "tags": [
+          "ledger"
+        ],
+        "summary": "List a group's ledger entries (social worker, or the group's own bookkeeper)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0,
+              "default": 0
+            },
+            "required": false,
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ledger entries with running balance, newest first, paginated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LedgerPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ledger"
+        ],
+        "summary": "Append a ledger entry (the group's own bookkeeper); never edits",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LedgerEntryCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Appended entry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LedgerEntry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/ledger/reverse": {
+      "post": {
+        "tags": [
+          "ledger"
+        ],
+        "summary": "Correct an entry by appending a reversing entry that points at the original (the group's own bookkeeper)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LedgerReverseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The reversing entry (sign inverted, reverses_entry_id set)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LedgerEntry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or not visible to this account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The entry was already reversed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/distribution": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Match distribution per group over a window, with over-concentration flags",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 730,
+              "default": 90
+            },
+            "required": false,
+            "name": "windowDays",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Distribution report",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchDistributionReport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "The authenticated caller's own profile (role and scope)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caller profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, expired, or otherwise invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated but not permitted (role or scope)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Liveness probe (public)",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Service is up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

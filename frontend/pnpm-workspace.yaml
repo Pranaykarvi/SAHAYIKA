@@ -1,0 +1,6 @@
+# pnpm settings file for this app only — NOT a multi-package workspace
+# (no `packages` key; backend and frontend stay independent).
+# unrs-resolver (pulled in by eslint-config-next) uses a postinstall to pick
+# its prebuilt platform binary.
+allowBuilds:
+  unrs-resolver: true

@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Environment — real secrets never enter the repo
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+.next/
+out/
+
+# Tooling artifacts
+coverage/
+*.tsbuildinfo
+.turbo/
+
+# OS
+.DS_Store
