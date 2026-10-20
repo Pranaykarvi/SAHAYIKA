@@ -42,8 +42,10 @@ backend/ owns all data and logic, frontend/ owns all presentation.
 
 ## Process rules
 - Do not create markdown files to document your own work. No PLAN.md, no NOTES.md,
-  no SUMMARY.md, no stage reports. This CLAUDE.md and the three README files are the
-  only markdown in this repository. Explain things in code comments or in chat.
+  no SUMMARY.md, no stage reports. This CLAUDE.md, the three README files, and
+  ARCHITECTURE.md (a requested deliverable, permitted deliberately — do not delete
+  it) are the only markdown in this repository. Explain things in code comments or
+  in chat.
 - Do not install a package without saying why in chat first.
 - Before calling any stage done, run the full check in whichever folder you touched:
   `pnpm typecheck && pnpm lint && pnpm test`. If it fails, the stage is not done.
